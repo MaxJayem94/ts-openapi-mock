@@ -9,9 +9,9 @@ To install required dependencies run: `npm install`, make sure you have [Docker]
 Then start the mock server:
 `npm run api:mock`
 
-Navigate to [localhost:56002]("http://localhost:56002/") to see the generated api spec of your mock server. 
+Navigate to [localhost:56002](http://localhost:56002/) to see the generated api spec of your mock server. 
 
-Try requesting [/customers]("http://localhost:56001/customers") to fetch mock data.
+Try requesting [/customers](http://localhost:56001/customers) to fetch mock data.
 
 run `npm run api-gen-mock` to generate Typescript Types and Services for your Frontend App. They will be located under `./generated`-Folder.
 
