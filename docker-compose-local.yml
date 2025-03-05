@@ -1,0 +1,20 @@
+services:
+  mock_api_server:
+    image: muonsoft/openapi-mock
+    volumes:
+      - ./mock-openapi.yaml:/etc/openapi/mock-openapi.yaml
+    environment:
+      OPENAPI_MOCK_SPECIFICATION_URL: '/etc/openapi/mock-openapi.yaml'
+      OPENAPI_MOCK_USE_EXAMPLES: 'if_present'
+      OPENAPI_MOCK_CORS_ENABLED: true
+    ports:
+      - '56001:8080'
+
+  mock_api_docs:
+    image: node:18-alpine
+    working_dir: /app
+    volumes:
+      - .:/app
+    command: sh -c "npm install -g http-server && http-server /app/oas-docs -p 8080"
+    ports:
+      - '56002:8080'
