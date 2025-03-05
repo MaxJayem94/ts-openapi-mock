@@ -1,225 +1,23 @@
 openapi: 3.0.3
 info:
-  title: Tribe Rest API
-  description: API zur Verwaltung von Tribe-Mitgliedern und Projekten
+  title: Project Management API
+  description: API for managing projects, employees, and customers.
   version: 1.0.0
 
 tags:
-  - name: TribeMember
-    description: Endpunkte zur Verwaltung von Tribe-Mitgliedern
-  - name: TribeProject
-    description: Endpunkte zur Verwaltung von Projekten
+  - name: Project
+    description: Endpoints for managing projects
+  - name: Employee
+    description: Endpoints for retrieving employees
+  - name: Customer
+    description: Endpoints for retrieving customers
 
 paths:
-  /tribe-members:
-    get:
-      tags: [ TribeMember ]
-      summary: Liste der Tribe-Mitglieder
-      description: Abruf einer paginierten, sortierten Liste der Tribe-Mitglieder mit Suchfunktion.
-      parameters:
-        - $ref: '#/components/parameters/pageSize'
-        - $ref: '#/components/parameters/offset'
-        - $ref: '#/components/parameters/sortByTribeMember'
-        - $ref: '#/components/parameters/sortOrder'
-        - name: searchTerm
-          in: query
-          description: Suchbegriff für Namen oder Projekt des Tribe-Mitglieds
-          required: false
-          schema:
-            type: string
-      responses:
-        '200':
-          description: Liste der Tribe-Mitglieder
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/TribeMemberListResponse'
-              examples:
-                example1:
-                  summary: Beispiel 1
-                  value:
-                    total: 2
-                    tribeMembers:
-                      - id: "1"
-                        firstName: "Max"
-                        lastName: "Mustermann"
-                        roles: [ "FRONTEND" ]
-                        hobbies: [ "Kochen", "Reisen" ]
-                        skills: [ "Angular", "React" ]
-                        project:
-                          name: "Website Redesign"
-                          startDate: "2023-01-01"
-                          endDate: "2023-06-01"
-                          budget: 50000
-                          customer: "ABC GmbH"
-                      - id: "2"
-                        firstName: "Anna"
-                        lastName: "Müller"
-                        roles: [ "BACKEND" ]
-                        hobbies: [ "Fotografie" ]
-                        skills: [ "Python", "Django" ]
-                      - id: "3"
-                        firstName: "John"
-                        lastName: "Doe"
-                        roles: [ "NAVIGATOR" ]
-                        hobbies: [ "Schach" ]
-                        skills: [ "Leadership", "Scrum" ]
-                        project:
-                          name: "Mobile App Development"
-                          startDate: "2022-05-01"
-                          endDate: "2022-12-31"
-                          budget: 100000
-                          customer: "XYZ Ltd."
-                      - id: "4"
-                        firstName: "Emily"
-                        lastName: "Clark"
-                        roles: [ "FRONTEND", "BACKEND" ]
-                        hobbies: [ "Wandern", "Lesen" ]
-                        skills: [ "JavaScript", "Node.js" ]
-                        project:
-                          name: "E-Commerce Platform"
-                          startDate: "2021-01-15"
-                          endDate: "2021-12-31"
-                          budget: 75000
-                          customer: "ShopNow Inc."
-                      - id: "5"
-                        firstName: "Liam"
-                        lastName: "Smith"
-                        roles: [ "BACKEND" ]
-                        hobbies: [ "Gaming" ]
-                        skills: [ "C++", "Java" ]
-                      - id: "6"
-                        firstName: "Sophia"
-                        lastName: "Taylor"
-                        roles: [ "FRONTEND" ]
-                        hobbies: [ "Malen", "Fotografie" ]
-                        skills: [ "Vue.js", "TypeScript" ]
-                        project:
-                          name: "Marketing Dashboard"
-                          startDate: "2023-03-01"
-                          endDate: "2023-09-01"
-                          budget: 30000
-                          customer: "MarketingPro AG"
-                      - id: "7"
-                        firstName: "Oliver"
-                        lastName: "Brown"
-                        roles: [ "BACKEND" ]
-                        hobbies: [ "Angeln" ]
-                        skills: [ "Ruby", "Rails" ]
-                        project:
-                          name: "Inventory Management"
-                          startDate: "2020-07-01"
-                          endDate: "2021-03-01"
-                          budget: 25000
-                          customer: "InventoryPlus"
-                      - id: "8"
-                        firstName: "Ava"
-                        lastName: "Johnson"
-                        roles: [ "FRONTEND" ]
-                        hobbies: [ "Yoga" ]
-                        skills: [ "CSS", "HTML" ]
-                      - id: "9"
-                        firstName: "James"
-                        lastName: "White"
-                        roles: [ "NAVIGATOR" ]
-                        hobbies: [ "Tennis" ]
-                        skills: [ "Team Management", "Agile" ]
-                        project:
-                          name: "Team Collaboration Tool"
-                          startDate: "2022-10-01"
-                          endDate: "2023-05-01"
-                          budget: 60000
-                          customer: "CollabTech"
-    post:
-      tags: [TribeMember]
-      summary: Neues Tribe-Mitglied erstellen
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/TribeMember'
-            example:
-              firstName: "Peter"
-              lastName: "Müller"
-              roles: ["BACKEND"]
-              hobbies: ["Fotografie"]
-              skills: ["JavaScript", "Node.js"]
-              project:
-                name: "Mobile App"
-                startDate: "2023-09-01"
-                endDate: "2024-03-01"
-                budget: 75000
-                customer: "XYZ AG"
-      responses:
-        '201':
-          description: Tribe-Mitglied erfolgreich erstellt
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/TribeMember'
-
-  /tribe-members/{id}:
-    patch:
-      tags: [TribeMember]
-      summary: Tribe-Mitglied aktualisieren
-      parameters:
-        - $ref: '#/components/parameters/id'
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/TribeMember'
-      responses:
-        '200':
-          description: Tribe-Mitglied erfolgreich aktualisiert
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/TribeMember'
-    delete:
-      tags: [TribeMember]
-      summary: Tribe-Mitglied löschen
-      parameters:
-        - $ref: '#/components/parameters/id'
-      responses:
-        '204':
-          description: Tribe-Mitglied erfolgreich gelöscht
-    get:
-      tags: [TribeMember]
-      summary: Tribe-Mitglied nach ID abrufen
-      parameters:
-        - $ref: '#/components/parameters/id'
-      responses:
-        '200':
-          description: Tribe-Mitglied gefunden
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/TribeMember'
-              examples:
-                example:
-                  summary: Einzelnes Tribe-Mitglied
-                  value:
-                    id: "1"
-                    firstName: "Max"
-                    lastName: "Mustermann"
-                    roles: ["FRONTEND"]
-                    hobbies: ["Kochen", "Reisen"]
-                    skills: ["Angular", "React"]
-                    project:
-                      name: "Website Redesign"
-                      startDate: "2023-01-01"
-                      endDate: "2023-06-01"
-                      budget: 50000
-                      customer: "ABC GmbH"
-
   /projects:
     get:
-      tags: [TribeProject]
-      summary: Liste der Projekte
-      description: Abruf einer paginierten, sortierten Liste der Projekte mit Suchfunktion.
+      tags: [ Project ]
+      summary: Get a list of projects
+      description: Retrieve a paginated, sortable list of projects with filtering options.
       parameters:
         - $ref: '#/components/parameters/pageSize'
         - $ref: '#/components/parameters/offset'
@@ -227,80 +25,201 @@ paths:
         - $ref: '#/components/parameters/sortOrder'
         - name: searchTerm
           in: query
-          description: Suchbegriff für den Projektnamen oder Kunden
+          description: Search term for project name or customer name
           required: false
           schema:
             type: string
       responses:
         '200':
-          description: Liste der Projekte
+          description: List of projects
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/TribeProjectListResponse'
+                $ref: '#/components/schemas/ProjectListResponse'
               examples:
-                example:
-                  summary: Beispiel Projekte
+                example1:
+                  summary: Example response
                   value:
-                    total: 1
+                    total: 2
                     projects:
                       - id: "1"
                         name: "Website Redesign"
-                        startDate: "2023-01-01"
-                        endDate: "2023-06-01"
                         budget: 50000
-                        customer: "ABC GmbH"
+                        startDate: "2023-01-01"
+                        industry: "IT"
+                        contact:
+                          id: "10"
+                          firstName: "Alice"
+                          lastName: "Smith"
+                          position: "Project Manager"
+                        customer:
+                          id: "100"
+                          companyName: "Tech Corp"
+                          industry: "Software"
+    post:
+      tags: [ Project ]
+      summary: Create a new project
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Project'
+      responses:
+        '201':
+          description: Project successfully created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Project'
+              examples:
+                example1:
+                  summary: Example response
+                  value:
+                    id: "2"
+                    name: "Mobile App Development"
+                    budget: 100000
+                    startDate: "2023-06-01"
+                    industry: "Finance"
+                    contact:
+                      id: "11"
+                      firstName: "Bob"
+                      lastName: "Johnson"
+                      position: "Tech Lead"
+                    customer:
+                      id: "101"
+                      companyName: "FinTech Inc."
+                      industry: "Banking"
+
+  /employees:
+    get:
+      tags: [ Employee ]
+      summary: Get a list of employees
+      parameters:
+        - $ref: '#/components/parameters/pageSize'
+        - $ref: '#/components/parameters/offset'
+        - name: searchTerm
+          in: query
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: List of employees
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmployeeListResponse'
+              examples:
+                example1:
+                  summary: Example response
+                  value:
+                    total: 2
+                    employees:
+                      - id: "10"
+                        firstName: "Alice"
+                        lastName: "Smith"
+                        position: "Project Manager"
+                      - id: "11"
+                        firstName: "Bob"
+                        lastName: "Johnson"
+                        position: "Tech Lead"
+
+  /customers:
+    get:
+      tags: [ Customer ]
+      summary: Get a list of customers
+      parameters:
+        - $ref: '#/components/parameters/pageSize'
+        - $ref: '#/components/parameters/offset'
+        - name: searchTerm
+          in: query
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: List of customers
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomerListResponse'
+              examples:
+                example1:
+                  summary: Example response
+                  value:
+                    total: 2
+                    customers:
+                      - id: "100"
+                        companyName: "Tech Corp"
+                        industry: "Software"
+                      - id: "101"
+                        companyName: "FinTech Inc."
+                        industry: "Banking"
 
 components:
   parameters:
     id:
       name: id
       in: path
-      description: ID der Ressource
       required: true
       schema:
         type: string
     pageSize:
       name: pageSize
       in: query
-      description: Anzahl der Elemente pro Seite
       required: false
       schema:
         type: integer
     offset:
       name: offset
       in: query
-      description: Offset für die Paginierung
       required: false
       schema:
         type: integer
-    sortByTribeMember:
-      name: sortBy
-      in: query
-      description: Sortierkriterium für Tribe-Mitglieder
-      required: false
-      schema:
-        type: string
-        enum: [firstName, lastName, projectName]
     sortByProject:
       name: sortBy
       in: query
-      description: Sortierkriterium für Projekte
       required: false
       schema:
         type: string
-        enum: [name, startDate, endDate, budget]
+        enum: [name, budget, startDate]
     sortOrder:
       name: sortOrder
       in: query
-      description: Sortierreihenfolge
       required: false
       schema:
         type: string
         enum: [asc, desc]
 
   schemas:
-    TribeMember:
+    Project:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        budget:
+          type: number
+        startDate:
+          type: string
+          format: date
+        industry:
+          type: string
+        contact:
+          $ref: '#/components/schemas/Employee'
+        customer:
+          $ref: '#/components/schemas/Customer'
+      required:
+        - name
+        - budget
+        - startDate
+        - industry
+        - contact
+        - customer
+
+    Employee:
       type: object
       properties:
         id:
@@ -309,63 +228,29 @@ components:
           type: string
         lastName:
           type: string
-        project:
-          $ref: '#/components/schemas/TribeProject'
-        roles:
-          type: array
-          items:
-            type: string
-            enum: [FRONTEND, BACKEND, NAVIGATOR]
-        hobbies:
-          type: array
-          items:
-            type: string
-        skills:
-          type: array
-          items:
-            type: string
+        position:
+          type: string
       required:
+        - id
         - firstName
         - lastName
-        - roles
-        - hobbies
-        - skills
+        - position
 
-    TribeProject:
+    Customer:
       type: object
       properties:
         id:
           type: string
-        name:
+        companyName:
           type: string
-        startDate:
-          type: string
-          format: date
-        endDate:
-          type: string
-          format: date
-        budget:
-          type: number
-        customer:
+        industry:
           type: string
       required:
-        - name
-        - startDate
-        - endDate
-        - budget
-        - customer
+        - id
+        - companyName
+        - industry
 
-    TribeMemberListResponse:
-      type: object
-      properties:
-        total:
-          type: integer
-        tribeMembers:
-          type: array
-          items:
-            $ref: '#/components/schemas/TribeMember'
-
-    TribeProjectListResponse:
+    ProjectListResponse:
       type: object
       properties:
         total:
@@ -373,4 +258,24 @@ components:
         projects:
           type: array
           items:
-            $ref: '#/components/schemas/TribeProject'
+            $ref: '#/components/schemas/Project'
+
+    EmployeeListResponse:
+      type: object
+      properties:
+        total:
+          type: integer
+        employees:
+          type: array
+          items:
+            $ref: '#/components/schemas/Employee'
+
+    CustomerListResponse:
+      type: object
+      properties:
+        total:
+          type: integer
+        customers:
+          type: array
+          items:
+            $ref: '#/components/schemas/Customer'
