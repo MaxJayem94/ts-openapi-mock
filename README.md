@@ -4,9 +4,9 @@ This repository is a setup to run a mock server using an openapi yaml file. The 
 
 For further information rear this [Medium Article]("https://medium.com/@maxjanssenmueller/mock-together-83046826ca2f").
 
-To install required dependencies run: `npm install`
+To install required dependencies run: `npm install`, make sure you have [Docker](https://docs.docker.com/desktop/setup/install/mac-install/) installed:
 
-Then start the mock server with (make sure you have [Docker](https://docs.docker.com/desktop/setup/install/mac-install/] installed) installed):
+Then start the mock server:
 `npm run api:mock`
 
 Navigate to [localhost:56002]("http://localhost:56002/") to see the generated api spec of your mock server. 
